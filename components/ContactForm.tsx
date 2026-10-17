@@ -38,16 +38,52 @@ const inputClass =
 
 const labelClass = "font-body text-[13px] font-medium text-white/60 block mb-2";
 
+// Where the quote request is delivered. Defaults to the live Magic Genie API, whose
+// /api/contact endpoint accepts cross-origin posts; override with NEXT_PUBLIC_CONTACT_ENDPOINT.
+const CONTACT_ENDPOINT =
+  process.env.NEXT_PUBLIC_CONTACT_ENDPOINT || "https://magicgenieservices.ca/api/contact";
+
 export default function ContactForm() {
   const [division, setDivision] = useState("");
   const [contact, setContact] = useState<"Email" | "Phone" | "Either">("Email");
-  const [status, setStatus] = useState<"idle" | "loading" | "success">("idle");
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
 
+  // This used to wait 1.5s and then report success without sending anything, so every
+  // quote request was silently discarded. It now posts to the API and only reports success
+  // when the request is actually accepted.
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (status === "loading") return;
+    const fd = new FormData(e.currentTarget);
+    const get = (k: string) => String(fd.get(k) ?? "").trim();
+    const name = get("name");
+    const email = get("email");
+    const phone = get("phone");
+    const service = get("service");
+    const property = get("property");
+    const description = get("description");
+
+    const message = [
+      `Division: ${division}`,
+      service ? `Service: ${service}` : "",
+      property ? `Property type: ${property}` : "",
+      `Preferred contact: ${contact}`,
+      "",
+      description,
+    ].filter(Boolean).join("\n");
+
     setStatus("loading");
-    await new Promise((r) => setTimeout(r, 1500));
-    setStatus("success");
+    try {
+      const res = await fetch(CONTACT_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, phone, message, kind: "commercial_quote" }),
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      setStatus("success");
+    } catch {
+      setStatus("error");
+    }
   };
 
   return (
@@ -87,7 +123,7 @@ export default function ContactForm() {
 
           <div className="flex flex-col gap-5">
             {[
-              { icon: Phone, label: "Phone", value: "639-590-1059", href: "tel:6395901059" },
+              { icon: Phone, label: "Phone", value: "236 506 9800", href: "tel:+12365069800" },
               { icon: MapPin, label: "Location", value: "Regina, Saskatchewan, Canada", href: null },
               { icon: Globe, label: "Website", value: "magicgenieservices.ca", href: "https://magicgenieservices.ca" },
             ].map(({ icon: Icon, label, value, href }) => (
@@ -133,6 +169,27 @@ export default function ContactForm() {
                 className="mt-2 font-body text-[14px] font-medium text-[#FF7F11] hover:underline"
               >
                 Submit another request
+              </button>
+            </div>
+          ) : status === "error" ? (
+            <div className="flex flex-col items-center gap-5 py-16 text-center" role="alert">
+              <h3 className="font-display font-bold text-[28px] text-porcelain tracking-tight">
+                We couldn&apos;t send that.
+              </h3>
+              <p className="font-body text-[16px] text-khaki max-w-[420px] leading-relaxed">
+                Your request was not submitted, so please don&apos;t wait on it. Call{" "}
+                <a href="tel:+12365069800" className="text-[#FF7F11] hover:underline">236 506 9800</a>{" "}
+                or email{" "}
+                <a href="mailto:info@magicgenieservices.ca" className="text-[#FF7F11] hover:underline">
+                  info@magicgenieservices.ca
+                </a>{" "}
+                and we&apos;ll take the details directly.
+              </p>
+              <button
+                onClick={() => setStatus("idle")}
+                className="mt-2 font-body text-[14px] font-medium text-[#FF7F11] hover:underline"
+              >
+                Try again
               </button>
             </div>
           ) : (

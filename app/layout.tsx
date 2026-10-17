@@ -58,7 +58,7 @@ export default function RootLayout({
     description:
       "Professional Cleaning, Contracting, Consulting & Marketing Solutions in Regina, Saskatchewan.",
     url: "https://magicgenieservices.ca",
-    telephone: "639-590-1059",
+    telephone: "+1-236-506-9800",
     address: {
       "@type": "PostalAddress",
       addressLocality: "Regina",
@@ -77,11 +77,9 @@ export default function RootLayout({
       closes: "18:00",
     },
     priceRange: "$$",
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: "5",
-      reviewCount: "500",
-    },
+    // The aggregateRating that used to sit here claimed 5.0 from 500 reviews. That figure was
+    // not real, and fabricated review markup breaches Google's structured data policies and
+    // Canada's misleading-representation rules. Re-add only once genuine reviews exist.
   };
 
   return (
