@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Shield, Clock, Star, Users, Repeat, MapPin } from "lucide-react";
+import { Shield, Clock, Users, Repeat, MapPin } from "lucide-react";
 
 const features = [
   {
@@ -17,10 +17,10 @@ const features = [
       "We respect your schedule. If we're late without prior notice, your service is discounted. No excuses. We show up when we say.",
   },
   {
-    icon: Star,
-    title: "5-Star Rated Service",
+    icon: Repeat,
+    title: "Hotel Quality Standard",
     description:
-      "Consistently rated 5 stars across Google and our service platform. Our reputation is built on results our clients rave about.",
+      "Every clean follows the same written checklist and ends with a photographic check, so the standard does not depend on who shows up.",
   },
   {
     icon: Users,
