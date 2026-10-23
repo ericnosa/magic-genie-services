@@ -6,9 +6,9 @@ import { Shield, Clock, Users, Repeat, MapPin } from "lucide-react";
 const features = [
   {
     icon: Shield,
-    title: "Fully Licensed & Insured",
+    title: "Trained & Approved",
     description:
-      "Every team member is vetted, trained, and covered under our comprehensive liability insurance. You're protected on every job.",
+      "Every team member is approved before their first visit, trained on our written checklists, and brings their own professional equipment.",
   },
   {
     icon: Clock,

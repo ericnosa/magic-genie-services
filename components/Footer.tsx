@@ -70,7 +70,7 @@ export default function Footer() {
                 </span>
               </a>
               <p className="font-body text-[14px] text-khaki leading-relaxed max-w-[300px]">
-                Regina&apos;s most trusted multi-service company. Licensed, insured, and committed
+                Regina&apos;s most trusted multi-service company, committed
                 to excellence across four specialized divisions.
               </p>
               <div className="flex gap-2.5">

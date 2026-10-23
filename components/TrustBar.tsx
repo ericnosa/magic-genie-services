@@ -1,12 +1,12 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Shield, Clock, Star, Users, Repeat, MapPin } from "lucide-react";
+import { Shield, Clock, Sparkles, Users, Repeat, MapPin } from "lucide-react";
 
 const items = [
-  { icon: Shield, label: "Fully Licensed & Insured" },
+  { icon: Shield, label: "Flat, Upfront Pricing" },
   { icon: Clock, label: "On-Time Guaranteed" },
-  { icon: Star, label: "5-Star Rated Service" },
+  { icon: Sparkles, label: "Hotel Quality Standard" },
   { icon: Users, label: "Expert Local Team" },
   { icon: Repeat, label: "Satisfaction Guaranteed" },
   { icon: MapPin, label: "Regina & Saskatchewan" },
